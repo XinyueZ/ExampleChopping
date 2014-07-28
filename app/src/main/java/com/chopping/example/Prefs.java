@@ -1,8 +1,8 @@
 package com.chopping.example;
 
-import android.content.Context;
-
 import com.chopping.BasicPrefs;
+
+import android.content.Context;
 
 /**
  * Store app and device information.
@@ -70,4 +70,8 @@ public final class Prefs extends BasicPrefs {
 		return getString("name", null);
 	}
 
+
+	public String getApiUsers() {
+		return getString("api_url", null);
+	}
 }
