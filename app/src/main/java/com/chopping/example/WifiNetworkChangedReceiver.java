@@ -13,7 +13,7 @@ import android.text.TextUtils;
 /**
  * Receiver to detect status of Wifi.
  */
-public final class NetworkLocationChangedReceiver extends BroadcastReceiver{
+public final class WifiNetworkChangedReceiver extends BroadcastReceiver{
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

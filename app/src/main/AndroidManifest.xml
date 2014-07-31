@@ -26,7 +26,7 @@
 			</intent-filter>
 		</activity>
 
-		<receiver android:name=".NetworkLocationChangedReceiver">
+		<receiver android:name=".WifiNetworkChangedReceiver">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
