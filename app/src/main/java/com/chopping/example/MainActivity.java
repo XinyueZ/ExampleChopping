@@ -3,6 +3,7 @@ package com.chopping.example;
 import com.android.volley.Request;
 import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
 import com.chopping.bus.BusProvider;
+import com.chopping.example.bus.WifiEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
 import com.chopping.exceptions.CanNotOpenOrFindAppPropertiesException;
@@ -18,6 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -36,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements
 	private ArrayAdapter<String> mAdapter;
 	private SwipeRefreshLayout mReloadSRL;
 	private WifiManager mWifiManager;
+	private MenuItem mWifiMenuItem;
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
@@ -59,6 +62,13 @@ public class MainActivity extends ActionBarActivity implements
 		mReloadSRL.setRefreshing(false);
 	}
 
+	@Subscribe
+	public void onWifiOnOff(WifiEvent _e) {
+		ActivityCompat.invalidateOptionsMenu(this);
+		mWifiMenuItem.setEnabled(true);
+		mWifiMenuItem.setTitle(
+				_e.isEnable() ? R.string.menu_wifi_is_on : R.string.menu_wifi_is_off);
+	}
 	// ------------------------------------------------
 
 	public void loadUser(View v) {
@@ -126,6 +136,7 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+		mWifiMenuItem = menu.findItem(R.id.action_wifi_settings);
 		return true;
 	}
 
@@ -135,16 +146,12 @@ public class MainActivity extends ActionBarActivity implements
 			case R.id.action_wifi_settings:
 				boolean isEnable = mWifiManager.isWifiEnabled();
 				mWifiManager.setWifiEnabled(!isEnable);
+				item.setTitle(
+						isEnable ? R.string.menu_wifi_is_off : R.string.menu_wifi_is_on);
+				item.setEnabled(false);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		boolean isEnable = mWifiManager.isWifiEnabled();
-		menu.findItem(R.id.action_wifi_settings).setTitle(
-				isEnable ? R.string.menu_wifi_is_on : R.string.menu_wifi_is_off);
-		return super.onPrepareOptionsMenu(menu);
-	}
 }
