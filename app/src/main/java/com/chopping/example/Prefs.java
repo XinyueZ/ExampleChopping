@@ -1,6 +1,6 @@
 package com.chopping.example;
 
-import com.chopping.BasicPrefs;
+import com.chopping.application.BasicPrefs;
 
 import android.content.Context;
 

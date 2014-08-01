@@ -1,6 +1,8 @@
 package com.chopping.example;
 
 import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.chopping.activities.BaseActivity;
 import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
 import com.chopping.bus.BusProvider;
 import com.chopping.example.bus.WifiEvent;
@@ -21,7 +23,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends BaseActivity implements
 		android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	private ListView mListView;
@@ -69,6 +70,12 @@ public class MainActivity extends ActionBarActivity implements
 		mWifiMenuItem.setTitle(
 				_e.isEnable() ? R.string.menu_wifi_is_on : R.string.menu_wifi_is_off);
 	}
+
+	@Subscribe
+	public void onVolleyError(VolleyError e){
+		mReloadSRL.setRefreshing(false);
+	}
+
 	// ------------------------------------------------
 
 	public void loadUser(View v) {
