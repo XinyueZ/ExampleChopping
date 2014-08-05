@@ -110,7 +110,13 @@ public class MainActivity extends BaseActivity implements
 				this,
 				android.R.layout.simple_expandable_list_item_1,
 				new ArrayList<String>()));
+	}
 
+
+	@Override
+	protected void onResume() {
+		BusProvider.getBus().register(this);
+		super.onResume();
 
 		String mightError = null;
 		try {
@@ -121,6 +127,7 @@ public class MainActivity extends BaseActivity implements
 			mightError = _e.getMessage();
 		}
 		if (mightError != null) {
+			mReloadSRL.setRefreshing(true);
 			new AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(mightError).setCancelable(false)
 					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 						@Override
@@ -129,13 +136,6 @@ public class MainActivity extends BaseActivity implements
 						}
 					}).create().show();
 		}
-	}
-
-
-	@Override
-	protected void onResume() {
-		BusProvider.getBus().register(this);
-		super.onResume();
 	}
 
 	@Override
