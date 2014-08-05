@@ -46,8 +46,17 @@ public class MainActivity extends BaseActivity implements
 	// ------------------------------------------------
 	@Subscribe
 	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent e) {
+		StringBuilder stringBuilder = new StringBuilder();
 		TextView textView = (TextView) findViewById(R.id.output_tv);
-		textView.setText(Prefs.getInstance().getOneProperty());
+		String newLine = System.getProperty("line.separator");
+		Prefs prefs = Prefs.getInstance();
+		stringBuilder.
+				append("property: ").append(prefs.getOneProperty()).append(newLine).
+				append("float: ").append(prefs.getFloatValue()).append(newLine).
+				append("int: ").append(prefs.getIntValue()).append(newLine).
+				append("long: ").append(prefs.getLongValue()).append(newLine).
+				append("bool: ").append(prefs.getBooleanValue()).append(newLine);
+		textView.setText(stringBuilder.toString());
 		mLoadUsersV.setEnabled(true);
 	}
 
