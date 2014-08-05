@@ -3,22 +3,18 @@ package com.chopping.example;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chopping.activities.BaseActivity;
+import com.chopping.application.BasicPrefs;
 import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
-import com.chopping.bus.BusProvider;
 import com.chopping.example.bus.WifiEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
-import com.chopping.exceptions.CanNotOpenOrFindAppPropertiesException;
-import com.chopping.exceptions.InvalidAppPropertiesException;
 import com.chopping.net.GsonRequestTask;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +36,7 @@ public class MainActivity extends BaseActivity implements
 	private SwipeRefreshLayout mReloadSRL;
 	private WifiManager mWifiManager;
 	private MenuItem mWifiMenuItem;
+
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
@@ -81,7 +78,7 @@ public class MainActivity extends BaseActivity implements
 	}
 
 	@Subscribe
-	public void onVolleyError(VolleyError e){
+	public void onVolleyError(VolleyError e) {
 		mReloadSRL.setRefreshing(false);
 	}
 
@@ -114,37 +111,6 @@ public class MainActivity extends BaseActivity implements
 
 
 	@Override
-	protected void onResume() {
-		BusProvider.getBus().register(this);
-		super.onResume();
-
-		String mightError = null;
-		try {
-			Prefs.getInstance().downloadApplicationConfiguration();
-		} catch (InvalidAppPropertiesException _e) {
-			mightError = _e.getMessage();
-		} catch (CanNotOpenOrFindAppPropertiesException _e) {
-			mightError = _e.getMessage();
-		}
-		if (mightError != null) {
-			mReloadSRL.setRefreshing(true);
-			new AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(mightError).setCancelable(false)
-					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							finish();
-						}
-					}).create().show();
-		}
-	}
-
-	@Override
-	protected void onPause() {
-		BusProvider.getBus().unregister(this);
-		super.onPause();
-	}
-
-	@Override
 	public void onRefresh() {
 		loadUser(null);
 	}
@@ -170,4 +136,8 @@ public class MainActivity extends BaseActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	protected BasicPrefs getPrefs() {
+		return Prefs.getInstance();
+	}
 }
