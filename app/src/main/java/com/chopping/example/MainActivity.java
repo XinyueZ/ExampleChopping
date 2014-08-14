@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements
 			mAdapter.add(user.getName());
 		}
 		mLoadUsersV.setEnabled(false);
-		mLoadUsersV.setText(R.string.users_loaded);
+		mLoadUsersV.setText(R.string.lbl_users_loaded);
 		mReloadSRL.setRefreshing(false);
 	}
 
@@ -92,6 +92,10 @@ public class MainActivity extends BaseActivity implements
 				DOUsers.class).execute();
 	}
 
+	public void openOther(View v) {
+		OtherActivity.showInstance(this);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,7 +105,7 @@ public class MainActivity extends BaseActivity implements
 		mListView = (ListView) findViewById(R.id.users_lv);
 		mLoadUsersV = (Button) findViewById(R.id.load_users_btn);
 		mReloadSRL = (SwipeRefreshLayout) findViewById(R.id.reload_srl);
-		mReloadSRL.setColorScheme(R.color.color1, R.color.color2, R.color.color3, R.color.color4);
+		mReloadSRL.setColorSchemeResources(R.color.color1, R.color.color2, R.color.color3, R.color.color4);
 		mReloadSRL.setOnRefreshListener(this);
 		mListView.setAdapter(mAdapter = new ArrayAdapter<String>(
 				this,

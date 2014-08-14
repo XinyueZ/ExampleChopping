@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ChoppingExample</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-	<string name="downloading">downloading…</string>
-	<string name="btn_load_users">Load users</string>
-	<string name="users_loaded">Pull to load.</string>
+	<string name="app_name">ChoppingExample</string>
+
 	<string name="menu_wifi_is_on">Disconnect Wifi</string>
 	<string name="menu_wifi_is_off">Connect Wifi</string>
+
+
+	<string name="btn_load_users">Load users</string>
+	<string name="btn_open_other">Open another activity hosting fragment.</string>
+
+	<string name="lbl_downloading">downloading…</string>
+	<string name="lbl_users_loaded">Pull to load.</string>
+	<string name="lbl_activity_other">OtherActivity</string>
+
 </resources>
