@@ -61,6 +61,11 @@ public class OtherActivity extends BaseActivity {
 		}
 	}
 
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		setErrorHandlerAvailable(true);
+	}
 
 	@Override
 	protected BasicPrefs getPrefs() {
@@ -120,12 +125,14 @@ public class OtherActivity extends BaseActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		                         Bundle savedInstanceState) {
-			return inflater.inflate(LAYOUT, container, false);
+			return super.onCreateView(inflater,
+					(ViewGroup)inflater.inflate(LAYOUT, null), savedInstanceState);
 		}
 
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
+			setErrorHandlerAvailable(false);
 			mListView = (ListView) view.findViewById(R.id.users_lv);
 			mReloadSRL = (SwipeRefreshLayout) view.findViewById(R.id.reload_srl);
 			mReloadSRL.setColorSchemeResources(R.color.color1, R.color.color2, R.color.color3, R.color.color4);
