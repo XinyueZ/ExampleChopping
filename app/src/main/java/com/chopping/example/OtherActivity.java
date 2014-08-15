@@ -64,7 +64,7 @@ public class OtherActivity extends BaseActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		setErrorHandlerAvailable(true);
+		setErrorHandlerAvailable(false);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class OtherActivity extends BaseActivity {
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
-			setErrorHandlerAvailable(false);
+			setErrorHandlerAvailable(true);
 			mListView = (ListView) view.findViewById(R.id.users_lv);
 			mReloadSRL = (SwipeRefreshLayout) view.findViewById(R.id.reload_srl);
 			mReloadSRL.setColorSchemeResources(R.color.color1, R.color.color2, R.color.color3, R.color.color4);
