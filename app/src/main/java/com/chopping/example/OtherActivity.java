@@ -5,6 +5,7 @@ import com.android.volley.VolleyError;
 import com.chopping.activities.BaseActivity;
 import com.chopping.application.BasicPrefs;
 import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
+import com.chopping.bus.ReloadEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
 import com.chopping.fragments.BaseFragment;
@@ -93,6 +94,17 @@ public class OtherActivity extends BaseActivity {
 				mAdapter.add(user.getName());
 			}
 			mReloadSRL.setRefreshing(false);
+		}
+
+		/**
+		 * Handler for {@link com.chopping.bus.ReloadEvent}
+		 *
+		 * @param e
+		 * 		Event {@link  com.chopping.bus.ReloadEvent}.
+		 */
+		public void onEvent(ReloadEvent e) {
+			mReloadSRL.setRefreshing(true);
+			loadUser(null);
 		}
 
 

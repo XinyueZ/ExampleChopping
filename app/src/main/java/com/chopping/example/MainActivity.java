@@ -5,6 +5,7 @@ import com.android.volley.VolleyError;
 import com.chopping.activities.BaseActivity;
 import com.chopping.application.BasicPrefs;
 import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
+import com.chopping.bus.ReloadEvent;
 import com.chopping.example.bus.WifiEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
@@ -78,6 +79,17 @@ public class MainActivity extends BaseActivity implements
 
 	public void onEvent(VolleyError e) {
 		mReloadSRL.setRefreshing(false);
+	}
+
+	/**
+	 * Handler for {@link com.chopping.bus.ReloadEvent}
+	 *
+	 * @param e
+	 * 		Event {@link  com.chopping.bus.ReloadEvent}.
+	 */
+	public void onEvent(ReloadEvent e) {
+		mReloadSRL.setRefreshing(true);
+		loadUser(null);
 	}
 
 	// ------------------------------------------------
