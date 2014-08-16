@@ -9,7 +9,7 @@ import com.chopping.example.bus.WifiEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
 import com.chopping.net.GsonRequestTask;
-import com.squareup.otto.Subscribe;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +41,7 @@ public class MainActivity extends BaseActivity implements
 	// ------------------------------------------------
 	// Subscribes, event-handlers
 	// ------------------------------------------------
-	@Subscribe
-	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent e) {
+	public void onEvent(ApplicationConfigurationDownloadedEvent e) {
 		StringBuilder stringBuilder = new StringBuilder();
 		TextView textView = (TextView) findViewById(R.id.output_tv);
 		String newLine = System.getProperty("line.separator");
@@ -57,8 +56,7 @@ public class MainActivity extends BaseActivity implements
 		mLoadUsersV.setEnabled(true);
 	}
 
-	@Subscribe
-	public void onDOUsersLoaded(DOUsers e) {
+	public void onEvent(DOUsers e) {
 		List<DOUser> users = e.getUserList();
 		mAdapter.clear();
 		for (DOUser user : users) {
@@ -69,16 +67,16 @@ public class MainActivity extends BaseActivity implements
 		mReloadSRL.setRefreshing(false);
 	}
 
-	@Subscribe
-	public void onWifiOnOff(WifiEvent _e) {
+
+	public void onEvent(WifiEvent _e) {
 		ActivityCompat.invalidateOptionsMenu(this);
 		mWifiMenuItem.setEnabled(true);
 		mWifiMenuItem.setTitle(
 				_e.isEnable() ? R.string.menu_wifi_is_on : R.string.menu_wifi_is_off);
 	}
 
-	@Subscribe
-	public void onVolleyError(VolleyError e) {
+
+	public void onEvent(VolleyError e) {
 		mReloadSRL.setRefreshing(false);
 	}
 

@@ -9,7 +9,7 @@ import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
 import com.chopping.fragments.BaseFragment;
 import com.chopping.net.GsonRequestTask;
-import com.squareup.otto.Subscribe;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,8 @@ public class OtherActivity extends BaseActivity {
 	// ------------------------------------------------
 	// Subscribes, event-handlers
 	// ------------------------------------------------
-	@Subscribe
-	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent e) {
+
+	public void onEvent(ApplicationConfigurationDownloadedEvent e) {
 
 	}
 	// ------------------------------------------------
@@ -85,8 +85,8 @@ public class OtherActivity extends BaseActivity {
 		//Subscribes, event-handlers
 		//------------------------------------------------
 
-		@Subscribe
-		public void onDOUsersLoaded(DOUsers e) {
+
+		public void onEvent(DOUsers e) {
 			List<DOUser> users = e.getUserList();
 			mAdapter.clear();
 			for (DOUser user : users) {
@@ -96,8 +96,8 @@ public class OtherActivity extends BaseActivity {
 		}
 
 
-		@Subscribe
-		public void onVolleyError(VolleyError e) {
+
+		public void onEvent(VolleyError e) {
 			mReloadSRL.setRefreshing(false);
 		}
 
