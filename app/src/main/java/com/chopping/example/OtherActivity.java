@@ -1,16 +1,12 @@
 package com.chopping.example;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.chopping.activities.BaseActivity;
 import com.chopping.application.BasicPrefs;
-import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
-import com.chopping.bus.ReloadEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
 import com.chopping.fragments.BaseFragment;
 import com.chopping.net.GsonRequestTask;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +27,6 @@ public class OtherActivity extends BaseActivity {
 	private static final int LAYOUT = R.layout.activity_other;
 	private static final int ERR_HANDLER_CONTAINER = R.id.container;
 
-	// ------------------------------------------------
-	// Subscribes, event-handlers
-	// ------------------------------------------------
-
-	public void onEvent(ApplicationConfigurationDownloadedEvent e) {
-
-	}
-	// ------------------------------------------------
 
 	/**
 	 * Show instance of {@link com.chopping.example.OtherActivity}.
@@ -96,23 +84,6 @@ public class OtherActivity extends BaseActivity {
 			mReloadSRL.setRefreshing(false);
 		}
 
-		/**
-		 * Handler for {@link com.chopping.bus.ReloadEvent}
-		 *
-		 * @param e
-		 * 		Event {@link  com.chopping.bus.ReloadEvent}.
-		 */
-		public void onEvent(ReloadEvent e) {
-			mReloadSRL.setRefreshing(true);
-			loadUser(null);
-		}
-
-
-
-		public void onEvent(VolleyError e) {
-			mReloadSRL.setRefreshing(false);
-		}
-
 		//------------------------------------------------
 
 		/**
@@ -138,7 +109,7 @@ public class OtherActivity extends BaseActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		                         Bundle savedInstanceState) {
 			return super.onCreateView(inflater,
-					(ViewGroup)inflater.inflate(LAYOUT, null), savedInstanceState);
+					(ViewGroup) inflater.inflate(LAYOUT, null), savedInstanceState);
 		}
 
 		@Override
@@ -171,6 +142,17 @@ public class OtherActivity extends BaseActivity {
 					Request.Method.GET,
 					Prefs.getInstance().getApiUsers(),
 					DOUsers.class).execute();
+		}
+
+		@Override
+		protected void onReload() {
+			mReloadSRL.setRefreshing(true);
+			loadUser(null);
+		}
+
+		@Override
+		protected void onNetworkError() {
+			mReloadSRL.setRefreshing(false);
 		}
 
 	}

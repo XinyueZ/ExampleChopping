@@ -1,16 +1,12 @@
 package com.chopping.example;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.chopping.activities.BaseActivity;
 import com.chopping.application.BasicPrefs;
-import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
-import com.chopping.bus.ReloadEvent;
 import com.chopping.example.bus.WifiEvent;
 import com.chopping.example.data.DOUser;
 import com.chopping.example.data.DOUsers;
 import com.chopping.net.GsonRequestTask;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,20 +38,7 @@ public class MainActivity extends BaseActivity implements
 	// ------------------------------------------------
 	// Subscribes, event-handlers
 	// ------------------------------------------------
-	public void onEvent(ApplicationConfigurationDownloadedEvent e) {
-		StringBuilder stringBuilder = new StringBuilder();
-		TextView textView = (TextView) findViewById(R.id.output_tv);
-		String newLine = System.getProperty("line.separator");
-		Prefs prefs = Prefs.getInstance();
-		stringBuilder.
-				append("property: ").append(prefs.getOneProperty()).append(newLine).
-				append("float: ").append(prefs.getFloatValue()).append(newLine).
-				append("int: ").append(prefs.getIntValue()).append(newLine).
-				append("long: ").append(prefs.getLongValue()).append(newLine).
-				append("bool: ").append(prefs.getBooleanValue()).append(newLine);
-		textView.setText(stringBuilder.toString());
-		mLoadUsersV.setEnabled(true);
-	}
+
 
 	public void onEvent(DOUsers e) {
 		List<DOUser> users = e.getUserList();
@@ -74,22 +57,6 @@ public class MainActivity extends BaseActivity implements
 		mWifiMenuItem.setEnabled(true);
 		mWifiMenuItem.setTitle(
 				_e.isEnable() ? R.string.menu_wifi_is_on : R.string.menu_wifi_is_off);
-	}
-
-
-	public void onEvent(VolleyError e) {
-		mReloadSRL.setRefreshing(false);
-	}
-
-	/**
-	 * Handler for {@link com.chopping.bus.ReloadEvent}
-	 *
-	 * @param e
-	 * 		Event {@link  com.chopping.bus.ReloadEvent}.
-	 */
-	public void onEvent(ReloadEvent e) {
-		mReloadSRL.setRefreshing(true);
-		loadUser(null);
 	}
 
 	// ------------------------------------------------
@@ -153,5 +120,32 @@ public class MainActivity extends BaseActivity implements
 	@Override
 	protected BasicPrefs getPrefs() {
 		return Prefs.getInstance();
+	}
+
+	@Override
+	protected void onAppConfigLoaded() {
+		StringBuilder stringBuilder = new StringBuilder();
+		TextView textView = (TextView) findViewById(R.id.output_tv);
+		String newLine = System.getProperty("line.separator");
+		Prefs prefs = Prefs.getInstance();
+		stringBuilder.
+				append("property: ").append(prefs.getOneProperty()).append(newLine).
+				append("float: ").append(prefs.getFloatValue()).append(newLine).
+				append("int: ").append(prefs.getIntValue()).append(newLine).
+				append("long: ").append(prefs.getLongValue()).append(newLine).
+				append("bool: ").append(prefs.getBooleanValue()).append(newLine);
+		textView.setText(stringBuilder.toString());
+		mLoadUsersV.setEnabled(true);
+	}
+
+	@Override
+	protected void onNetworkError() {
+		mReloadSRL.setRefreshing(false);
+	}
+
+	@Override
+	protected void onReload() {
+		mReloadSRL.setRefreshing(true);
+		loadUser(null);
 	}
 }
