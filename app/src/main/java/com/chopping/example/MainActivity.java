@@ -49,6 +49,8 @@ public class MainActivity extends BaseActivity implements
 		mLoadUsersV.setEnabled(false);
 		mLoadUsersV.setText(R.string.lbl_users_loaded);
 		mReloadSRL.setRefreshing(false);
+
+		setHasShownDataOnUI(true);
 	}
 
 

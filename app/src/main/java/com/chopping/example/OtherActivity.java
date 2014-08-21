@@ -82,6 +82,8 @@ public class OtherActivity extends BaseActivity {
 				mAdapter.add(user.getName());
 			}
 			mReloadSRL.setRefreshing(false);
+
+			setHasShownDataOnUI(true);
 		}
 
 		//------------------------------------------------
