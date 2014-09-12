@@ -1,13 +1,5 @@
 package com.chopping.example;
 
-import com.android.volley.Request;
-import com.chopping.activities.BaseActivity;
-import com.chopping.application.BasicPrefs;
-import com.chopping.example.bus.WifiEvent;
-import com.chopping.example.data.DOUser;
-import com.chopping.example.data.DOUsers;
-import com.chopping.net.GsonRequestTask;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.chopping.activities.BaseActivity;
+import com.chopping.application.BasicPrefs;
+import com.chopping.example.bus.WifiEvent;
+import com.chopping.example.data.DOUser;
+import com.chopping.example.data.DOUsers;
+import com.chopping.net.GsonRequestTask;
 
 public class MainActivity extends BaseActivity implements
 		android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
@@ -138,6 +138,11 @@ public class MainActivity extends BaseActivity implements
 				append("bool: ").append(prefs.getBooleanValue()).append(newLine);
 		textView.setText(stringBuilder.toString());
 		mLoadUsersV.setEnabled(true);
+	}
+
+	@Override
+	protected void onAppConfigIgnored() {
+		onAppConfigLoaded();
 	}
 
 	@Override
